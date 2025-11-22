@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangalore Street Food Safety Monitor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-text">FoodGuardML</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active" data-view="home">Home</a>
+                <a href="#predict" class="nav-link" data-view="predict">Check Risk</a>
+                <a href="#database" class="nav-link" data-view="database">Vendor Database</a>
+                <a href="#about" class="nav-link" data-view="about">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home View -->
+        <section id="home-view" class="view active">
+            <div class="hero-section">
+                <h1 class="hero-title">FoodGuardML</h1>
+                <p class="hero-subtitle">Data-driven risk prediction for safer street food experiences</p>
+                <button class="btn btn--primary btn--lg" onclick="app.navigateToView('predict')">Check Vendor Risk</button>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value">120</div>
+                    <div class="stat-label">Vendors Analyzed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">78</div>
+                    <div class="stat-label">High Risk</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">35</div>
+                    <div class="stat-label">Medium Risk</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Low Risk</div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="info-section">
+                    <h2>Mission</h2>
+                    <p>Street food is a cornerstone of Bangalore's urban identity, but rapid growth, varied hygiene levels, and informal handling expose consumers to increased risks of foodborne illness. Our project develops a data-driven, machine learning-based risk prediction model to promote safer street food experiences.</p>
+                </div>
+
+                <div class="chart-section">
+                    <h2>Risk Distribution</h2>
+                    <canvas id="riskChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Predict View -->
+        <section id="predict-view" class="view">
+            <div class="container">
+                <h1 class="page-title">Vendor Risk Assessment</h1>
+                <p class="page-subtitle">Fill in the details below to predict foodborne illness risk</p>
+
+                <form id="prediction-form" class="prediction-form">
+                    <div class="form-section">
+                        <h3>Basic Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Location</label>
+                                <select name="location" class="form-control" required>
+                                    <option value="">Select location</option>
+                                    <option value="VV Puram">VV Puram</option>
+                                    <option value="Jayanagar 4th Block">Jayanagar 4th Block</option>
+                                    <option value="JP Nagar">JP Nagar</option>
+                                    <option value="Indiranagar">Indiranagar</option>
+                                    <option value="Koramangala">Koramangala</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Food Type</label>
+                                <select name="food_type" class="form-control" required>
+                                    <option value="">Select food type</option>
+                                    <option value="Panipuri">Panipuri</option>
+                                    <option value="Dosa">Dosa</option>
+                                    <option value="Chaat">Chaat</option>
+                                    <option value="Juice">Juice</option>
+                                    <option value="Sandwich">Sandwich</option>
+                                    <option value="Vada Pav">Vada Pav</option>
+                                    <option value="Momos">Momos</option>
+                                    <option value="Fried Rice">Fried Rice</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Hygiene Factors</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Water Source</label>
+                                <select name="water_source" class="form-control" required>
+                                    <option value="">Select water source</option>
+                                    <option value="Bottled">Bottled</option>
+                                    <option value="Filtered">Filtered</option>
+                                    <option value="Tap">Tap</option>
+                                    <option value="Unknown">Unknown</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Handler Hygiene</label>
+                                <select name="handler_hygiene" class="form-control" required>
+                                    <option value="">Select hygiene level</option>
+                                    <option value="Excellent">Excellent</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Fair">Fair</option>
+                                    <option value="Poor">Poor</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Utensil Cleaning</label>
+                                <select name="utensil_cleaning" class="form-control" required>
+                                    <option value="">Select cleaning level</option>
+                                    <option value="Excellent">Excellent</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Fair">Fair</option>
+                                    <option value="Poor">Poor</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Storage Method</label>
+                                <select name="storage_method" class="form-control" required>
+                                    <option value="">Select storage method</option>
+                                    <option value="Covered & Refrigerated">Covered &amp; Refrigerated</option>
+                                    <option value="Covered Room Temp">Covered Room Temp</option>
+                                    <option value="Partially Covered">Partially Covered</option>
+                                    <option value="Exposed">Exposed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Environmental Conditions</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Time Since Preparation (hours)</label>
+                                <input type="number" name="time_since_prep" class="form-control" min="0" max="24" step="0.5" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Ambient Temperature (°C): <span id="temp-value">30</span></label>
+                                <input type="range" name="ambient_temp" class="form-slider" min="25" max="38" value="30" step="1">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Humidity (%): <span id="humidity-value">60</span></label>
+                                <input type="range" name="humidity" class="form-slider" min="40" max="85" value="60" step="5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Site Conditions</h3>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="nearby_drainage">
+                                <span>Nearby Drainage</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="flies_present">
+                                <span>Flies Present</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="waste_nearby">
+                                <span>Waste Nearby</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="demo-buttons">
+                        <h3>Quick Demo</h3>
+                        <div class="demo-button-group">
+                            <button type="button" class="btn btn--secondary" onclick="app.fillDemoForm('high')">
+                                <span style="color: var(--color-error);">🚨</span> High Risk Demo
+                            </button>
+                            <button type="button" class="btn btn--secondary" onclick="app.fillDemoForm('medium')">
+                                <span style="color: var(--color-warning);">⚠️</span> Medium Risk Demo
+                            </button>
+                            <button type="button" class="btn btn--secondary" onclick="app.fillDemoForm('low')">
+                                <span style="color: var(--color-success);">✅</span> Low Risk Demo
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn--primary btn--lg btn--full-width">
+                            <span class="btn-text">Predict Risk</span>
+                            <span class="btn-loader" style="display: none;">⏳</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Database View -->
+        <section id="database-view" class="view">
+            <div class="container">
+                <h1 class="page-title">Vendor Database</h1>
+                <p class="page-subtitle">Browse and search all analyzed vendors</p>
+
+                <div class="database-controls">
+                    <input type="text" id="search-input" class="form-control" placeholder="Search by vendor ID or name...">
+                    <select id="location-filter" class="form-control">
+                        <option value="">All Locations</option>
+                        <option value="VV Puram">VV Puram</option>
+                        <option value="Jayanagar 4th Block">Jayanagar 4th Block</option>
+                        <option value="JP Nagar">JP Nagar</option>
+                        <option value="Indiranagar">Indiranagar</option>
+                        <option value="Koramangala">Koramangala</option>
+                    </select>
+                    <select id="risk-filter" class="form-control">
+                        <option value="">All Risk Levels</option>
+                        <option value="Low">Low Risk</option>
+                        <option value="Medium">Medium Risk</option>
+                        <option value="High">High Risk</option>
+                    </select>
+                </div>
+
+                <div id="vendor-grid" class="vendor-grid"></div>
+            </div>
+        </section>
+
+        <!-- About View -->
+        <section id="about-view" class="view">
+            <div class="container">
+                <h1 class="page-title">About the Project</h1>
+                
+                <div class="about-content">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Project Overview</h3>
+                            <p>When we think of Bangalore, images of bustling street food stalls, vibrant lifestyle, and energetic nightlife come to mind. Yet, beneath this allure lies a less examined question: how safe is the city's celebrated street food?</p>
+                            <p>Street food is a cornerstone of Bangalore's urban identity, but rapid growth, varied hygiene levels, and informal handling expose consumers to increased risks of foodborne illness.</p>
+                            <p>To address these challenges, our project develops a data-driven, machine learning (ML)–based risk prediction model for foodborne disease hazards among street vendors in hotspots like VV Puram, Jayanagar 4th Block, and JP Nagar.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Methodology</h3>
+                            <p>Using a custom field survey, we collect on-site, vendor-specific data across critical risk factors:</p>
+                            <ul>
+                                <li>Water source quality</li>
+                                <li>Food handler hygiene practices</li>
+                                <li>Utensil cleaning methods</li>
+                                <li>Food storage conditions</li>
+                                <li>Time elapsed since food preparation</li>
+                                <li>Overall environmental cleanliness</li>
+                                <li>Ambient temperature and humidity</li>
+                                <li>Food type classification</li>
+                            </ul>
+                            <p>This dataset, after thorough cleaning and encoding, is used to train ML algorithms—regression models, decision trees, and random forests—via Python's scikit-learn.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Risk Scoring Rubric</h3>
+                            <div class="rubric-table">
+                                <div class="rubric-row">
+                                    <strong>Risk Level</strong>
+                                    <strong>Score Range</strong>
+                                    <strong>Interpretation</strong>
+                                </div>
+                                <div class="rubric-row">
+                                    <span class="status status--success">Low Risk</span>
+                                    <span>0-4</span>
+                                    <span>Safe for consumption</span>
+                                </div>
+                                <div class="rubric-row">
+                                    <span class="status status--warning">Medium Risk</span>
+                                    <span>5-8</span>
+                                    <span>Caution advised</span>
+                                </div>
+                                <div class="rubric-row">
+                                    <span class="status status--error">High Risk</span>
+                                    <span>9+</span>
+                                    <span>Avoid or request improvements</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Impact &amp; Vision</h3>
+                            <p>By combining public health surveillance, AI/ML techniques, and rich local culture, this scalable project offers a practical solution for food safety and quality improvement in Indian urban street food.</p>
+                            <p>It supports both consumer well-being and the street food community, promoting healthier habits and sustainable culinary traditions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Results Modal -->
+    <div id="results-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="app.closeModal()">&times;</button>
+            <div id="results-content"></div>
+        </div>
+    </div>
+
+    <!-- Vendor Detail Modal -->
+    <div id="vendor-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="app.closeVendorModal()">&times;</button>
+            <div id="vendor-detail-content"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Bangalore Street Food Safety Monitor. Promoting safer street food experiences through data-driven insights.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
